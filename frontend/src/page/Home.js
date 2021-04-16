@@ -120,11 +120,11 @@ export default function Home() {
           <Grid item xs={6}>
             <LinkM
               component={Link}
-              to="/"
+              to="/promotion"
               className={classes.headR}
               color="primary"
             >
-              show more
+              All Promotion
             </LinkM>
           </Grid>
         </Grid>
@@ -159,11 +159,11 @@ export default function Home() {
           <Grid item xs={6}>
             <LinkM
               component={Link}
-              to="/"
+              to="/product"
               className={classes.headR}
               color="primary"
             >
-              show more
+              All Products
             </LinkM>
           </Grid>
         </Grid>

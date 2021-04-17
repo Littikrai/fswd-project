@@ -10,7 +10,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import LinkM from "@material-ui/core/Link";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import Divider from "@material-ui/core/Divider";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({

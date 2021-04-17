@@ -8,6 +8,8 @@ import CustomTheme from "./component/Theme";
 import SignUp from "./page/SignUp";
 import ProductDetail from "./page/ProductDetail";
 import Promotion from "./page/Promotions";
+import Cart from "./page/Cart";
+import Checkout from "./page/Checkout";
 
 function App() {
   return (
@@ -30,6 +32,12 @@ function App() {
           </Route>
           <Route path="/signup">
             <SignUp />
+          </Route>
+          <Route path="/cart">
+            <Cart />
+          </Route>
+          <Route path="/checkout">
+            <Checkout />
           </Route>
           <Route path="/product/1">
             <ProductDetail />

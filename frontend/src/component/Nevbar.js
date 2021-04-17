@@ -80,7 +80,12 @@ export default function Navbar() {
           </Link>
           <div className={classes.root} />
           <div className={classes.menuButton}>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
+            <IconButton
+              component={Link}
+              to="/cart"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
               <Badge badgeContent={1} color="secondary">
                 <ShoppingCartIcon />
               </Badge>

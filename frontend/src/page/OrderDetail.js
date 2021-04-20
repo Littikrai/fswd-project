@@ -1,16 +1,15 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import { Link } from "react-router-dom";
-import Container from "@material-ui/core/Container";
+import { Container } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import { Link } from "react-router-dom";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -62,25 +61,14 @@ const rows = [
   createData("Gingerbread", 356, 16.0, 49, "Delete"),
 ];
 
-export default function Checkout() {
+export default function OrderDetail() {
   const classes = useStyles();
-
   return (
-    <Container className={classes.container}>
-      <Card className={classes.card} variant="outlined">
-        <CardContent>
-          <Typography variant="h5" component="h2">
-            Delivery Address
-          </Typography>
-          <Typography variant="body2" component="p">
-            well meaning and kindly.
-          </Typography>
-        </CardContent>
-      </Card>
+    <Container>
       <Card className={classes.cardCon} variant="outlined">
         <CardContent>
           <Typography variant="h5" component="h2">
-            Product Ordered
+            Order Detail
           </Typography>
           <TableContainer>
             <Table
@@ -124,15 +112,6 @@ export default function Checkout() {
             <Typography variant="h4" color="primary">
               Total: ฿ 250
             </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              component={Link}
-              to="/payment"
-            >
-              PLACE ORDER
-            </Button>
           </div>
         </CardContent>
       </Card>

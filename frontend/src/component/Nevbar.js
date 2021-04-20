@@ -10,11 +10,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    marginBottom: theme.spacing(4),
   },
   barBack: {
     backgroundColor: theme.palette.primary.main,
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
+  const [isLogin, setIsLogin] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
 
@@ -55,8 +57,15 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose} component={Link} to="/customer">
+        Profile
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose} component={Link} to="/customer/order">
+        My order
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose} component={Link} to="/admin">
+        Admin
+      </MenuItem>
       <MenuItem onClick={handleMenuClose}>Sign out</MenuItem>
     </Menu>
   );
@@ -90,21 +99,23 @@ export default function Navbar() {
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
+            {isLogin ? (
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            ) : (
+              <Button color="inherit" component={Link} to="/signin">
+                SIGN IN
+              </Button>
+            )}
 
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-
-            <Button color="inherit" component={Link} to="/signin">
-              SIGN IN
-            </Button>
             {/* <Button color="inherit" onClick={goSignUp}>
               SIGN UP
             </Button> */}

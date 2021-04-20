@@ -8,11 +8,8 @@ import {
   CardMedia,
   Container,
   TextField,
-  Fab,
   CardContent,
 } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -51,14 +48,6 @@ export default function ProductDetail() {
 
   const handleChange = (event) => {
     setValue(event.target.value);
-  };
-
-  const handleAdd = () => {
-    setValue(value.amount + 1);
-  };
-
-  const handleRemove = () => {
-    setValue(value.amount - 1);
   };
 
   return (

@@ -3,13 +3,13 @@ import Button from "@material-ui/core/Button";
 import Create from "../component/Create";
 import { Container } from "@material-ui/core";
 
-export default function CreateProduct() {
+export default function CreatePromotion() {
   const data = {
-    title: "Create Product",
-    field1: "Product Name",
-    field2: "Band",
-    field3: "Stock",
-    field4: "Price",
+    title: "Create Promotion",
+    field1: "Promotion Name",
+    field2: "Detail",
+    field3: "Discount",
+    field4: "Stock",
   };
   return (
     <Container maxWidth="md">

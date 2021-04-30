@@ -17,6 +17,8 @@ import OrderDetail from "./page/OrderDetail";
 import Admin from "./page/Admin";
 import AdminProduct from "./page/AdminProduct";
 import CreateProduct from "./page/CreateProduct";
+import AdminPromotion from "./page/AdminPromotion";
+import CreatePromotion from "./page/CreatePromotion";
 
 function App() {
   return (
@@ -68,6 +70,12 @@ function App() {
           </Route>
           <Route exact path="/admin/product/create">
             <CreateProduct />
+          </Route>
+          <Route exact path="/admin/promotion">
+            <AdminPromotion />
+          </Route>
+          <Route exact path="/admin/promotion/create">
+            <CreatePromotion />
           </Route>
         </Switch>
       </div>

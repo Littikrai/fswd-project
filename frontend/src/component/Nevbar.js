@@ -11,6 +11,7 @@ import Menu from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { Link } from "react-router-dom";
+import { useSession } from "../contexts/SessionContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
-  const [isLogin, setIsLogin] = React.useState(true);
+  const { loading, user, logout: handleLogout } = useSession();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
 
@@ -42,6 +43,10 @@ export default function Navbar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+  function onClick(event) {
+    handleMenuClose();
+    handleLogout();
+  }
 
   const menuId = "hi";
 
@@ -66,7 +71,9 @@ export default function Navbar() {
       <MenuItem onClick={handleMenuClose} component={Link} to="/admin">
         Admin
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>Sign out</MenuItem>
+      <MenuItem onClick={onClick} component={Link} to="/">
+        Sign out
+      </MenuItem>
     </Menu>
   );
 
@@ -99,7 +106,7 @@ export default function Navbar() {
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
-            {isLogin ? (
+            {user ? (
               <IconButton
                 edge="end"
                 aria-label="account of current user"

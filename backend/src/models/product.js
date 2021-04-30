@@ -8,12 +8,12 @@ const Product = new Schema({
   media: { type: String, required: true },
   price: { type: Number, require: true },
   stock: { type: Number, require: true },
-  category: { type: Staring, required: true },
-  brand: { type: Staring, required: true },
+  category: { type: String, required: true },
+  brand: { type: String, required: true },
 });
 
 export const ProductModel = mongoose.model("Product", Product);
 
-// export const UserTC = composeWithMongoose(UserModel).removeField("password");
+export const ProductTC = composeWithMongoose(ProductModel);
 
 export default ProductModel;

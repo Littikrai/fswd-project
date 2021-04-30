@@ -41,7 +41,12 @@ export default function Admin() {
           >
             Product
           </Button>
-          <Button variant="outlined" color="primary">
+          <Button
+            variant="outlined"
+            color="primary"
+            component={Link}
+            to="/admin/promotion"
+          >
             Promotion
           </Button>
         </Grid>

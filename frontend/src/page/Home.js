@@ -11,6 +11,8 @@ import LinkM from "@material-ui/core/Link";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import { Link } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
+import { useSession } from "../contexts/SessionContext";
+import { PRODUCT_QUERY } from "../graphql/productQuery";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -73,6 +75,15 @@ const USERS_QUERY = gql`
 
 export default function Home() {
   const classes = useStyles();
+  const { user } = useSession();
+  const { loading, error, data } = useQuery(PRODUCT_QUERY);
+  if (loading) {
+    return "Loading ...";
+  }
+  if (error) {
+    return "Error !!";
+  }
+  console.log(data);
   // const { loading, error, data } = useQuery(USERS_QUERY);
   // if (loading) {
   //   return "Loading . . .";
@@ -102,15 +113,14 @@ export default function Home() {
             color="textSecondary"
             paragraph
           >
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
+            {user ? user.name : "Login Please "}
           </Typography>
         </Container>
       </div>
       <Container className={classes.cardGrid} maxWidth="md">
         {/* End hero unit */}
 
-        <Grid container>
+        {/* <Grid container>
           <Grid item xs={6}>
             <Typography className={classes.head} variant="h4">
               Promotion
@@ -127,9 +137,9 @@ export default function Home() {
             </LinkM>
           </Grid>
         </Grid>
-        <div className={classes.lineHead} />
+        <div className={classes.lineHead} /> */}
 
-        <Grid container spacing={3}>
+        {/* <Grid container spacing={3}>
           {cards.map((card) => (
             <Grid item key={card} xs={6} sm={4} md={3}>
               <CardActionArea component={Link} to="/product/1">
@@ -147,7 +157,7 @@ export default function Home() {
               </CardActionArea>
             </Grid>
           ))}
-        </Grid>
+        </Grid> */}
 
         <Grid container>
           <Grid item xs={6}>

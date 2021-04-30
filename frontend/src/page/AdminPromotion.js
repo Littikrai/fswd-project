@@ -1,20 +1,6 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import TableAdmin from "../component/TableAdmin";
-
-const useStyles = makeStyles((theme) => ({
-  table: {
-    minWidth: 650,
-  },
-  head: {
-    textAlign: "left",
-    marginBottom: theme.spacing(4),
-  },
-  rightBut: {
-    textAlign: "right",
-  },
-}));
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -27,15 +13,15 @@ const rows = [
   createData("Cupcake", 305, 3.7, 67, 4.3),
   createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
-export default function AdminProduct() {
-  const classes = useStyles();
+
+export default function AdminPromotion() {
   const info = {
-    title: "Product",
-    head1: "Product Name",
-    head2: "Brand",
-    head3: "Price",
+    title: "Promotion",
+    head1: "Promotion Name",
+    head2: "Detail",
+    head3: "Discount",
     head4: "Stock",
-    head5: "Latest Update",
+    head5: "Create date",
   };
   return (
     <Container>

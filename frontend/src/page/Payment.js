@@ -5,7 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Dialog from "@material-ui/core/Dialog";
@@ -13,6 +13,9 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { useSession } from "../contexts/SessionContext";
+import { useMutation } from "@apollo/client";
+import { CREATE_ORDER } from "../graphql/orderMutation";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -51,9 +54,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Payment() {
+export default function Payment({ adds }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const { cart, user, removeItem } = useSession();
+  const [createOrder] = useMutation(CREATE_ORDER);
+  const history = useHistory();
+
+  const handlePayment = React.useCallback(async () => {
+    try {
+      await createOrder({
+        variables: {
+          record: {
+            address: adds,
+            customerId: user?._id,
+            totalPrice: cart?.totalPrice,
+            item: cart?.item,
+          },
+        },
+      });
+      await removeItem();
+      history.push("/");
+    } catch (err) {
+      console.log(err);
+    }
+  }, [createOrder, adds, cart, history]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -72,7 +97,7 @@ export default function Payment() {
               <Grid item xs={12}>
                 <Typography variant="h4">Payment summary</Typography>
               </Grid>
-              <Grid item xs={6}>
+              {/* <Grid item xs={6}>
                 <Typography variant="h6">เงินที่เหลือ</Typography>
               </Grid>
               <Grid item xs={6} style={{ textAlign: "right" }}>
@@ -87,13 +112,13 @@ export default function Payment() {
                 <Typography variant="h6" color="primary">
                   10000
                 </Typography>
-              </Grid>
+              </Grid> */}
               <Grid item xs={6}>
                 <Typography variant="h6">Balance</Typography>
               </Grid>
               <Grid item xs={6} style={{ textAlign: "right" }}>
                 <Typography variant="h6" color="primary">
-                  2000
+                  {cart?.totalPrice}
                 </Typography>
               </Grid>
             </Grid>
@@ -104,7 +129,7 @@ export default function Payment() {
               size="medium"
               variant="contained"
               color="primary"
-              onClick={handleClickOpen}
+              onClick={handlePayment}
             >
               Payment
             </Button>

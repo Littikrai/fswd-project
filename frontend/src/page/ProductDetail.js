@@ -2,6 +2,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
+import { useMutation, useQuery } from "@apollo/client";
 import {
   Button,
   Card,
@@ -10,6 +11,10 @@ import {
   TextField,
   CardContent,
 } from "@material-ui/core";
+import { useHistory, useParams } from "react-router-dom";
+import { PRODUCT_ID_QUERY } from "../graphql/productQuery";
+import { UPDATE_CART } from "../graphql/createCart";
+import { useSession } from "../contexts/SessionContext";
 
 const useStyles = makeStyles((theme) => ({
   page: {
@@ -38,17 +43,58 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 0,
     fontWeight: 500,
   },
+  spec: {
+    textAlign: "left",
+    textTransform: "uppercase",
+  },
 }));
 
 export default function ProductDetail() {
+  const [amount, setAmount] = React.useState(1);
+  // const [item, setItems] = React.useState([]);
+  const { cart, addItem } = useSession();
   const classes = useStyles();
-  const [value, setValue] = React.useState({
-    amount: 1,
+  const { id } = useParams();
+  const { loading, error, data } = useQuery(PRODUCT_ID_QUERY, {
+    variables: { productId: id },
   });
+  const product = data?.productById;
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+  // React.useEffect(() => {
+  //   setItems(cart?.item);
+  // }, [loading, data, cart]);
+
+  // await setItems([
+  //   ...item,
+  //   {
+  //     media: product.media,
+  //     name: product.name,
+  //     price: product.price,
+  //     quantity: amount,
+  //   },
+  // ]);
+
+  const handleAddCart = React.useCallback(
+    async (e) => {
+      e.preventDefault();
+      const item = {
+        media: product?.media,
+        name: product?.name,
+        price: product?.price,
+        quantity: amount,
+      };
+      await addItem(item);
+    },
+    [addItem, amount, product]
+  );
+  // console.log(amount);
+  if (loading) {
+    return "Loading ...";
+  }
+  if (error) {
+    console.log(error);
+    return "Error !!";
+  }
 
   return (
     <Container maxWidth="md">
@@ -57,35 +103,29 @@ export default function ProductDetail() {
           <Card>
             <CardMedia
               className={classes.media}
-              image="https://source.unsplash.com/random"
+              image={"http://localhost:4000/img/" + product.media + ".jpg"}
             />
           </Card>
         </Grid>
         <Grid item xs={7} style={{ textAlign: "left" }}>
-          <Typography variant="h4">Goods Name</Typography>
+          <Typography variant="h4">{product.name}</Typography>
           <Typography variant="h3" color="primary">
-            ฿285
+            ฿{product.price}
           </Typography>
           <div className={classes.buttGroup}>
-            {/* <Fab
-              color="primary"
-              aria-label="remove"
-              style={{ height: 25, width: 35 }}
-              onClick={handleRemove}
-            >
-              <RemoveIcon />
-            </Fab> */}
             <Typography variant="subtitle1">Amount</Typography>
             <TextField
               id="outlined-basic"
               variant="outlined"
               size="small"
               type={"number"}
-              value={value.amount}
-              onChange={handleChange}
+              value={amount}
+              onChange={(e) => setAmount(parseInt(e.target.value))}
               className={classes.textField}
             />
-            <Typography variant="subtitle1">50 piece available</Typography>
+            <Typography variant="subtitle1">
+              {product.stock} piece available
+            </Typography>
             {/* <Fab
               color="primary"
               aria-label="add"
@@ -101,6 +141,7 @@ export default function ProductDetail() {
                 variant="outlined"
                 color="primary"
                 className={classes.buttonSel}
+                onClick={handleAddCart}
               >
                 Add to cart
               </Button>
@@ -117,20 +158,16 @@ export default function ProductDetail() {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <Card className={classes.root}>
+          <Card className={classes.spec}>
             <CardContent>
               <Typography variant="h5" component="h2">
                 Product Specifications
               </Typography>
               <Typography variant="body1">
-                Category :{'"a benevolent smile"'}
+                Category : {product.category}
               </Typography>
-              <Typography variant="body1">
-                Brand :{'"a benevolent smile"'}
-              </Typography>
-              <Typography variant="body1">
-                Stock :{'"a benevolent smile"'}
-              </Typography>
+              <Typography variant="body1">Brand : {product.brand}</Typography>
+              <Typography variant="body1">Stock : {product.stock}</Typography>
             </CardContent>
           </Card>
         </Grid>

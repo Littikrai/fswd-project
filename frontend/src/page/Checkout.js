@@ -11,6 +11,9 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
+import { TextField } from "@material-ui/core";
+import { useSession } from "../contexts/SessionContext";
+import Payment from "./Payment";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -64,78 +67,96 @@ const rows = [
 
 export default function Checkout() {
   const classes = useStyles();
-
+  const [address, setAddress] = React.useState("");
+  const [pay, setPay] = React.useState(false);
+  const { cart } = useSession();
   return (
     <Container className={classes.container}>
-      <Card className={classes.card} variant="outlined">
-        <CardContent>
-          <Typography variant="h5" component="h2">
-            Delivery Address
-          </Typography>
-          <Typography variant="body2" component="p">
-            well meaning and kindly.
-          </Typography>
-        </CardContent>
-      </Card>
-      <Card className={classes.cardCon} variant="outlined">
-        <CardContent>
-          <Typography variant="h5" component="h2">
-            Product Ordered
-          </Typography>
-          <TableContainer>
-            <Table
-              className={classes.table}
-              size="small"
-              aria-label="a dense table"
-            >
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.name}>
-                    <TableCell
-                      width="30%"
-                      component="th"
-                      scope="row"
-                      align="center"
-                    >
-                      <img
-                        className={classes.cardMedia}
-                        src="https://source.unsplash.com/random"
-                        alt={"image-goods-" + row.name}
-                      />
-                    </TableCell>
-                    <TableCell width="30%" align="left">
-                      <div className={classes.nameProduct}>{row.name}</div>
-                    </TableCell>
-                    <TableCell width="10%" align="center">
-                      {row.calories}
-                    </TableCell>
-                    <TableCell width="10%" align="center">
-                      {row.fat}
-                    </TableCell>
-                    <TableCell width="10%" align="center">
-                      {row.carbs}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <div className={classes.bot}>
-            <Typography variant="h4" color="primary">
-              Total: ฿ 250
-            </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              component={Link}
-              to="/payment"
-            >
-              PLACE ORDER
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      {pay ? (
+        <Payment adds={address} />
+      ) : (
+        <>
+          <Card className={classes.card} variant="outlined">
+            <CardContent>
+              <Typography variant="h5" component="h2">
+                Delivery Address
+              </Typography>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="address"
+                label="Address"
+                name="address"
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </CardContent>
+          </Card>
+          <Card className={classes.cardCon} variant="outlined">
+            <CardContent>
+              <Typography variant="h5" component="h2">
+                Product Ordered
+              </Typography>
+              <TableContainer>
+                <Table
+                  className={classes.table}
+                  size="small"
+                  aria-label="a dense table"
+                >
+                  <TableBody>
+                    {cart?.item.map((row, index) => (
+                      <TableRow key={index}>
+                        <TableCell
+                          width="30%"
+                          component="th"
+                          scope="row"
+                          align="center"
+                        >
+                          <img
+                            className={classes.cardMedia}
+                            src={
+                              "http://localhost:4000/img/" + row.media + ".jpg"
+                            }
+                            alt={"image-goods-" + row.name}
+                          />
+                        </TableCell>
+                        <TableCell width="30%" align="left">
+                          <div className={classes.nameProduct}>{row.name}</div>
+                        </TableCell>
+                        <TableCell width="10%" align="center">
+                          {row.price}
+                        </TableCell>
+                        <TableCell width="10%" align="center">
+                          {row.quantity}
+                        </TableCell>
+                        <TableCell width="10%" align="center">
+                          {row.total}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <div className={classes.bot}>
+                <Typography variant="h4" color="primary">
+                  Total: ฿ {cart?.totalPrice}
+                </Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  onClick={() => setPay(true)}
+                  // component={Link}
+                  // to="/payment"
+                >
+                  PLACE ORDER
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </>
+      )}
     </Container>
   );
 }

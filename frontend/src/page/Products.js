@@ -57,7 +57,7 @@ function Product() {
         <Grid container spacing={3}>
           {cards.map((card) => (
             <Grid item key={card} xs={6} sm={4} md={3}>
-              <CardActionArea component={Link} to="/product/1">
+              <CardActionArea component={Link} to={"/product/" + card._id}>
                 <CardMedia
                   className={classes.cardMedia}
                   image="https://source.unsplash.com/random"

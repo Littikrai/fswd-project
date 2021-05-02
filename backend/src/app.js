@@ -3,6 +3,8 @@ const { ApolloServer, gql } = require("apollo-server-express");
 import jwt from "express-jwt";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import bodyParser from "body-parser";
+const { graphqlUploadExpress } = require("graphql-upload");
 
 import "./mongoose-connect";
 import schema from "./graphql";
@@ -18,10 +20,12 @@ const server = new ApolloServer({
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static("public"));
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 app.use(
   path,
+  // graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
   jwt({
     secret: process.env.SECRET ?? "default-secret",
     algorithms: ["HS256"],

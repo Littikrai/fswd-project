@@ -9,7 +9,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { FormControl, FormLabel, Radio, RadioGroup } from "@material-ui/core";
+import { useMutation } from "@apollo/client";
+import { CREATE_USER } from "../graphql/createUser";
+import { CREATE_CART } from "../graphql/createCart";
+import { useHistory } from "react-router";
+import { useSession } from "../contexts/SessionContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,11 +36,39 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
+  const history = useHistory();
   const classes = useStyles();
-  const [value, setValue] = React.useState("female");
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+  const [record, setRecord] = React.useState({
+    username: "",
+    name: "",
+    password: "",
+  });
+  const [createUser] = useMutation(CREATE_USER);
+  const [createCart] = useMutation(CREATE_CART);
+  const { login, err } = useSession();
+  // const [value, setValue] = React.useState("female");
+  // const handleChange = (event) => {
+  //   setValue(event.target.value);
+  // };
+
+  const handleRegister = React.useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        const { data } = await createUser({ variables: { record } });
+        await createCart({
+          variables: { record: { customerId: data.createUser.recordId } },
+        });
+        await login(record.username, record.password);
+        history.push("/");
+        // alert("Register success");
+      } catch (err) {
+        console.log(err);
+        alert("Register failed");
+      }
+    },
+    [createUser, history, record]
+  );
 
   return (
     <Container component="main" maxWidth="xs">
@@ -53,13 +85,16 @@ export default function SignUp() {
             <Grid item xs={12}>
               <TextField
                 autoComplete="fname"
-                name="fullName"
+                name="name"
                 variant="outlined"
                 required
                 fullWidth
-                id="fullName"
-                label="Full Name"
+                id="na,e"
+                label="Name"
                 autoFocus
+                onChange={(e) =>
+                  setRecord((prev) => ({ ...prev, name: e.target.value }))
+                }
               />
             </Grid>
             <Grid item xs={12}>
@@ -67,10 +102,12 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="username"
+                label="Username"
+                name="username"
+                onChange={(e) =>
+                  setRecord((prev) => ({ ...prev, username: e.target.value }))
+                }
               />
             </Grid>
             <Grid item xs={12}>
@@ -83,6 +120,9 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(e) =>
+                  setRecord((prev) => ({ ...prev, password: e.target.value }))
+                }
               />
             </Grid>
             <Grid item xs={12}>
@@ -97,47 +137,6 @@ export default function SignUp() {
                 autoComplete="current-password"
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="date"
-                label="Birthday"
-                variant="outlined"
-                type="date"
-                fullWidth
-                defaultValue="2013-08-01"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl component="fieldset">
-                <FormLabel component="legend">Gender</FormLabel>
-                <RadioGroup
-                  aria-label="gender"
-                  name="gender1"
-                  value={value}
-                  onChange={handleChange}
-                  row
-                >
-                  <FormControlLabel
-                    value="male"
-                    control={<Radio />}
-                    label="Male"
-                  />
-                  <FormControlLabel
-                    value="female"
-                    control={<Radio />}
-                    label="Female"
-                  />
-                  <FormControlLabel
-                    value="other"
-                    control={<Radio />}
-                    label="Other"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
           </Grid>
           <Button
             type="submit"
@@ -145,6 +144,7 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleRegister}
           >
             Sign Up
           </Button>

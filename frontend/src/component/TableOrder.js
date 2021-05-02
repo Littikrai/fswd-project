@@ -26,18 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-export default function TableAdmin({ info, data, detail }) {
+export default function TableOrder({ info, data }) {
   const { title, head1, head2, head3, head4, head5 } = info;
   const classes = useStyles();
   return (
@@ -48,21 +37,6 @@ export default function TableAdmin({ info, data, detail }) {
             {title}
           </Typography>
         </Grid>
-        <Grid item xs={6} className={classes.rightBut}>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginRight: 15 }}
-            component={Link}
-            to={
-              title === "Product"
-                ? "/admin/product/create"
-                : "/admin/promotion/create"
-            }
-          >
-            Add {title}
-          </Button>
-        </Grid>
       </Grid>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
@@ -71,8 +45,7 @@ export default function TableAdmin({ info, data, detail }) {
               <TableCell>{head1}</TableCell>
               <TableCell align="center">{head2}</TableCell>
               <TableCell align="center">{head3}</TableCell>
-              <TableCell align="center">{head4}</TableCell>
-              <TableCell align="center">{head5}</TableCell>
+              <TableCell align="center">Action</TableCell>
               {/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
             </TableRow>
           </TableHead>
@@ -80,15 +53,20 @@ export default function TableAdmin({ info, data, detail }) {
             {data.map((row) => (
               <TableRow key={row.name}>
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {row.address}
                 </TableCell>
-                <TableCell align="center">{row.calories}</TableCell>
-                <TableCell align="center">{row.fat}</TableCell>
-                <TableCell align="center">{row.carbs}</TableCell>
-                <TableCell align="center">{row.carbs}</TableCell>
+                <TableCell align="center">{row.totalPrice}</TableCell>
                 <TableCell align="center">
-                  <Button variant="outlined" color="primary">
-                    Edit
+                  {row.createAt.slice(0, 10)}
+                </TableCell>
+                <TableCell align="center">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    component={Link}
+                    to={"/customer/order/" + row._id}
+                  >
+                    Detail
                   </Button>
                 </TableCell>
               </TableRow>

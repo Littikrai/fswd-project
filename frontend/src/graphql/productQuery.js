@@ -1,10 +1,14 @@
 import { gql } from "@apollo/client";
 
 export const PRODUCT_ID_QUERY = gql`
-  query($productId: String!) {
+  query($productId: MongoID!) {
     productById(_id: $productId) {
       name
       media
+      price
+      stock
+      category
+      brand
     }
   }
 `;
@@ -15,6 +19,7 @@ export const PRODUCT_QUERY = gql`
       _id
       name
       media
+      price
     }
   }
 `;

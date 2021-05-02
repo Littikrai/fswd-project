@@ -19,6 +19,7 @@ import AdminProduct from "./page/AdminProduct";
 import CreateProduct from "./page/CreateProduct";
 import AdminPromotion from "./page/AdminPromotion";
 import CreatePromotion from "./page/CreatePromotion";
+import UploadForm from "./component/UploadForm";
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
           <Route exact path="/product">
             <Product />
           </Route>
-          <Route path="/product/1">
+          <Route path="/product/:id">
             <ProductDetail />
           </Route>
           <Route exact path="/promotion">
@@ -59,7 +60,7 @@ function App() {
           <Route exact path="/customer/order">
             <Order />
           </Route>
-          <Route path="/customer/order/1">
+          <Route exact path="/customer/order/:id">
             <OrderDetail />
           </Route>
           <Route exact path="/admin">
@@ -76,6 +77,9 @@ function App() {
           </Route>
           <Route exact path="/admin/promotion/create">
             <CreatePromotion />
+          </Route>
+          <Route exact path="/file">
+            <UploadForm />
           </Route>
         </Switch>
       </div>

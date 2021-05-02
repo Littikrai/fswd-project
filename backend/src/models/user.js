@@ -13,6 +13,7 @@ const UserSchema = new Schema({
   },
   name: { type: String, required: true },
   password: { type: String, require: true, bcrypt: true },
+  address: { type: String },
 });
 UserSchema.plugin(bcrypt);
 

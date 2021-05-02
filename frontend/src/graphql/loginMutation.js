@@ -7,6 +7,18 @@ export const LOGIN_MUTATION = gql`
       user {
         _id
         name
+        cart {
+          _id
+          customerId
+          totalPrice
+          item {
+            name
+            price
+            media
+            quantity
+            total
+          }
+        }
       }
     }
   }

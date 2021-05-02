@@ -12,6 +12,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
+import { useSession } from "../contexts/SessionContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -35,20 +36,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, "Delete"),
-  createData("Ice cream sandwich", 237, 9.0, 37, "Delete"),
-  createData("Eclair", 262, 16.0, 24, "Delete"),
-  createData("Cupcake", 305, 3.7, 67, "Delete"),
-  createData("Gingerbread", 356, 16.0, 49, "Delete"),
-];
-
 export default function Cart() {
   const classes = useStyles();
+
+  const { cart } = useSession();
 
   return (
     <>
@@ -58,31 +49,30 @@ export default function Cart() {
             <TableHead>
               <TableRow>
                 <TableCell align="center">Product</TableCell>
+                <TableCell align="center">Name</TableCell>
                 <TableCell align="center">Unit Price</TableCell>
                 <TableCell align="center">Quantity</TableCell>
                 <TableCell align="center">Total Price</TableCell>
-                <TableCell align="center">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.name}>
+              {cart?.item.map((row, index) => (
+                <TableRow key={index}>
                   <TableCell
                     component="th"
                     scope="row"
                     style={{ textAlign: "center" }}
                   >
-                    {row.name}
                     <CardMedia
                       className={classes.cardMedia}
-                      image="https://source.unsplash.com/random"
+                      image={"http://localhost:4000/img/" + row.media + ".jpg"}
                       title="Image title"
                     />
                   </TableCell>
-                  <TableCell align="center">{row.calories}</TableCell>
-                  <TableCell align="center">{row.fat}</TableCell>
-                  <TableCell align="center">{row.carbs}</TableCell>
-                  <TableCell align="center">{row.protein}</TableCell>
+                  <TableCell align="center"> {row.name} </TableCell>
+                  <TableCell align="center">{row.price}</TableCell>
+                  <TableCell align="center">{row.quantity}</TableCell>
+                  <TableCell align="center">{row.total}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -90,7 +80,7 @@ export default function Cart() {
         </TableContainer>
         <div className={classes.bot}>
           <Typography variant="h4" color="primary">
-            Total: ฿ 250
+            Total: ฿ {cart?.totalPrice}
           </Typography>
           <Button
             variant="contained"

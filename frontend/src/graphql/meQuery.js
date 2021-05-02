@@ -5,6 +5,18 @@ export const ME_QUERY = gql`
     me {
       _id
       name
+      cart {
+        _id
+        customerId
+        totalPrice
+        item {
+          name
+          price
+          media
+          quantity
+          total
+        }
+      }
     }
   }
 `;

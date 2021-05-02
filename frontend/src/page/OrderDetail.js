@@ -8,8 +8,10 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
+import { useQuery } from "@apollo/client";
+import { QUERY_ID_ORDER } from "../graphql/orderQuery";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -62,7 +64,19 @@ const rows = [
 ];
 
 export default function OrderDetail() {
+  const { id } = useParams();
   const classes = useStyles();
+  const { loading, error, data } = useQuery(QUERY_ID_ORDER, {
+    variables: { orderID: id },
+  });
+  if (loading) {
+    return "Loading ...";
+  }
+  if (error) {
+    console.log(error.message);
+    return "Error !!";
+  }
+  const item = data?.OrderTCById?.item;
   return (
     <Container>
       <Card className={classes.cardCon} variant="outlined">
@@ -77,8 +91,8 @@ export default function OrderDetail() {
               aria-label="a dense table"
             >
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.name}>
+                {item?.map((row, index) => (
+                  <TableRow key={index}>
                     <TableCell
                       width="30%"
                       component="th"
@@ -87,21 +101,21 @@ export default function OrderDetail() {
                     >
                       <img
                         className={classes.cardMedia}
-                        src="https://source.unsplash.com/random"
-                        alt={"image-goods-" + row.name}
+                        src={"http://localhost:4000/img/" + row.media + ".jpg"}
+                        alt={"image-goods-" + row.name + index}
                       />
                     </TableCell>
                     <TableCell width="30%" align="left">
                       <div className={classes.nameProduct}>{row.name}</div>
                     </TableCell>
                     <TableCell width="10%" align="center">
-                      {row.calories}
+                      {row.price}
                     </TableCell>
                     <TableCell width="10%" align="center">
-                      {row.fat}
+                      {row.quantity}
                     </TableCell>
                     <TableCell width="10%" align="center">
-                      {row.carbs}
+                      {row.total}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -110,7 +124,7 @@ export default function OrderDetail() {
           </TableContainer>
           <div className={classes.bot}>
             <Typography variant="h4" color="primary">
-              Total: ฿ 250
+              Total: ฿ {data?.OrderTCById?.totalPrice}
             </Typography>
           </div>
         </CardContent>

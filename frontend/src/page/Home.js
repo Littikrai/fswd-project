@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -10,7 +9,7 @@ import Container from "@material-ui/core/Container";
 import LinkM from "@material-ui/core/Link";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import { Link } from "react-router-dom";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useSession } from "../contexts/SessionContext";
 import { PRODUCT_QUERY } from "../graphql/productQuery";
 
@@ -62,17 +61,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4];
-const cardsPromo = [1, 2, 3, 4];
-const USERS_QUERY = gql`
-  query {
-    users {
-      username
-      name
-    }
-  }
-`;
-
 export default function Home() {
   const classes = useStyles();
   const { user } = useSession();
@@ -81,9 +69,9 @@ export default function Home() {
     return "Loading ...";
   }
   if (error) {
+    console.log(error.message);
     return "Error !!";
   }
-  console.log(data);
   // const { loading, error, data } = useQuery(USERS_QUERY);
   // if (loading) {
   //   return "Loading . . .";
@@ -97,25 +85,20 @@ export default function Home() {
       <CssBaseline />
       {/* Hero unit */}
       <div className={classes.heroContent}>
-        <Container maxWidth="sm">
-          <Typography
-            component="h1"
-            variant="h2"
-            align="center"
-            color="textPrimary"
-            gutterBottom
-          >
-            Banner layout
-          </Typography>
-          <Typography
-            variant="h5"
-            align="center"
-            color="textSecondary"
-            paragraph
-          >
-            {user ? user.name : "Login Please "}
-          </Typography>
-        </Container>
+        {/* <Container maxWidth="sm"> */}
+        <Typography
+          component="h1"
+          variant="h2"
+          align="center"
+          color="textPrimary"
+          gutterBottom
+        >
+          Banner layout
+        </Typography>
+        <Typography variant="h5" align="center" color="textSecondary" paragraph>
+          {user ? user.name : "Login Please "}
+        </Typography>
+        {/* </Container> */}
       </div>
       <Container className={classes.cardGrid} maxWidth="md">
         {/* End hero unit */}
@@ -179,20 +162,20 @@ export default function Home() {
         <div className={classes.lineHead} />
 
         <Grid container spacing={3}>
-          {cardsPromo.map((card) => (
+          {data.product.map((card) => (
             <Grid item key={card} xs={6} sm={4} md={3}>
-              <CardActionArea>
+              <CardActionArea component={Link} to={"/product/" + card._id}>
                 <CardMedia
                   className={classes.cardMedia}
-                  image="https://source.unsplash.com/random"
+                  image={"http://localhost:4000/img/" + card.media + ".jpg"}
                   title="Image title"
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    Heading
+                    {card.name}
                   </Typography>
                 </CardContent>
-                <Typography color="primary">128$</Typography>
+                <Typography color="primary">${card.price}</Typography>
               </CardActionArea>
             </Grid>
           ))}

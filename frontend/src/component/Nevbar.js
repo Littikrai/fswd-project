@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -32,10 +32,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
-  const { loading, user, logout: handleLogout } = useSession();
+  const { user, logout: handleLogout, cart } = useSession();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [count, setCount] = React.useState(0);
   const isMenuOpen = Boolean(anchorEl);
-
+  useEffect(() => {
+    if (cart?.item) {
+      setCount(cart?.item.length);
+    }
+  }, [cart]);
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -102,7 +107,7 @@ export default function Navbar() {
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={1} color="secondary">
+              <Badge badgeContent={count} color="secondary">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>

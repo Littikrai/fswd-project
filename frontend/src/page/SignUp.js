@@ -3,7 +3,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
@@ -45,11 +44,7 @@ export default function SignUp() {
   });
   const [createUser] = useMutation(CREATE_USER);
   const [createCart] = useMutation(CREATE_CART);
-  const { login, err } = useSession();
-  // const [value, setValue] = React.useState("female");
-  // const handleChange = (event) => {
-  //   setValue(event.target.value);
-  // };
+  const { login } = useSession();
 
   const handleRegister = React.useCallback(
     async (e) => {
@@ -67,7 +62,7 @@ export default function SignUp() {
         alert("Register failed");
       }
     },
-    [createUser, history, record]
+    [createUser, history, record, createCart, login]
   );
 
   return (

@@ -6,7 +6,6 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { SessionProvider } from "./contexts/SessionContext";
-import { createUploadLink } from "apollo-upload-client";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",

@@ -44,7 +44,7 @@ export const SessionProvider = (props) => {
         removeCookie("token", { maxAge: 86400 });
       }
     },
-    [login, removeCookie, setCookie]
+    [login, removeCookie, setCookie, history]
   );
   const handleLogout = useCallback(() => {
     setUser(null);
@@ -95,7 +95,7 @@ export const SessionProvider = (props) => {
         console.log(err);
       }
     },
-    [updateCart, cart]
+    [updateCart, cart, loadMe]
   );
 
   const removeCart = useCallback(async () => {
@@ -113,7 +113,7 @@ export const SessionProvider = (props) => {
     } catch (e) {
       console.log(e);
     }
-  }, [updateCart, cart]);
+  }, [updateCart, cart, loadMe]);
 
   return (
     <SessionContext.Provider

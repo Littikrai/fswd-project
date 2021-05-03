@@ -73,9 +73,9 @@ export default function Navbar() {
       <MenuItem onClick={handleMenuClose} component={Link} to="/customer/order">
         My order
       </MenuItem>
-      <MenuItem onClick={handleMenuClose} component={Link} to="/admin">
+      {/* <MenuItem onClick={handleMenuClose} component={Link} to="/admin">
         Admin
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem onClick={onClick} component={Link} to="/">
         Sign out
       </MenuItem>

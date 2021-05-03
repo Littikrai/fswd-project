@@ -80,7 +80,7 @@ export default function Cart() {
         </TableContainer>
         <div className={classes.bot}>
           <Typography variant="h4" color="primary">
-            Total: ฿ {cart?.totalPrice}
+            Total: {cart?.totalPrice} ฿
           </Typography>
           <Button
             variant="contained"

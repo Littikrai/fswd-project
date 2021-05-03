@@ -47,7 +47,7 @@ export default function Create({ data }) {
           <Grid container spacing={4}>
             <Grid item xs={4}>
               <div className={classes.upImg}>
-                <img src={image} className={classes.img} />
+                <img src={image} className={classes.img} alt="updates" />
               </div>
               <Button variant="contained" component="label">
                 Upload File

@@ -78,11 +78,7 @@ export default function Payment({ adds }) {
     } catch (err) {
       console.log(err);
     }
-  }, [createOrder, adds, cart, history]);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  }, [createOrder, adds, cart, history, removeItem, user?._id]);
 
   const handleClose = () => {
     setOpen(false);
@@ -97,28 +93,12 @@ export default function Payment({ adds }) {
               <Grid item xs={12}>
                 <Typography variant="h4">Payment summary</Typography>
               </Grid>
-              {/* <Grid item xs={6}>
-                <Typography variant="h6">เงินที่เหลือ</Typography>
-              </Grid>
-              <Grid item xs={6} style={{ textAlign: "right" }}>
-                <Typography variant="h6" color="primary">
-                  8000
-                </Typography>
-              </Grid>
               <Grid item xs={6}>
-                <Typography variant="h6">Payment amount</Typography>
+                <Typography variant="h6">Total</Typography>
               </Grid>
               <Grid item xs={6} style={{ textAlign: "right" }}>
                 <Typography variant="h6" color="primary">
-                  10000
-                </Typography>
-              </Grid> */}
-              <Grid item xs={6}>
-                <Typography variant="h6">Balance</Typography>
-              </Grid>
-              <Grid item xs={6} style={{ textAlign: "right" }}>
-                <Typography variant="h6" color="primary">
-                  {cart?.totalPrice}
+                  {cart?.totalPrice} ฿
                 </Typography>
               </Grid>
             </Grid>

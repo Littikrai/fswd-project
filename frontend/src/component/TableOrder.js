@@ -7,7 +7,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -27,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TableOrder({ info, data }) {
-  const { title, head1, head2, head3, head4, head5 } = info;
+  const { title, head1, head2, head3 } = info;
   const classes = useStyles();
   return (
     <>

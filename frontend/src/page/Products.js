@@ -9,6 +9,8 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import { useQuery } from "@apollo/client";
+import { PRODUCT_QUERY } from "../graphql/productQuery";
 
 const useStyles = makeStyles((theme) => ({
   head: {
@@ -43,10 +45,16 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
 }));
-
-const cards = [1, 2, 3, 4];
 function Product() {
   const classes = useStyles();
+  const { loading, error, data } = useQuery(PRODUCT_QUERY);
+  if (loading) {
+    return "Loading ...";
+  }
+  if (error) {
+    console.log(error.message);
+    return "Error !!";
+  }
   return (
     <>
       <Container className={classes.cardGrid}>
@@ -55,20 +63,20 @@ function Product() {
         </Typography>
         <div className={classes.lineHead} />
         <Grid container spacing={3}>
-          {cards.map((card) => (
+          {data?.product.map((card) => (
             <Grid item key={card} xs={6} sm={4} md={3}>
               <CardActionArea component={Link} to={"/product/" + card._id}>
                 <CardMedia
                   className={classes.cardMedia}
-                  image="https://source.unsplash.com/random"
+                  image={"http://localhost:4000/img/" + card.media + ".jpg"}
                   title="Image title"
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h6" component="h2">
-                    Heading
+                    {card.name}
                   </Typography>
                 </CardContent>
-                <Typography color="primary">128$</Typography>
+                <Typography color="primary">{card.price} ฿</Typography>
               </CardActionArea>
             </Grid>
           ))}

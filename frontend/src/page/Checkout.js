@@ -4,7 +4,6 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { Link } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -52,18 +51,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "right",
   },
 }));
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, "Delete"),
-  createData("Ice cream sandwich", 237, 9.0, 37, "Delete"),
-  createData("Eclair", 262, 16.0, 24, "Delete"),
-  createData("Cupcake", 305, 3.7, 67, "Delete"),
-  createData("Gingerbread", 356, 16.0, 49, "Delete"),
-];
 
 export default function Checkout() {
   const classes = useStyles();
@@ -140,7 +127,7 @@ export default function Checkout() {
               </TableContainer>
               <div className={classes.bot}>
                 <Typography variant="h4" color="primary">
-                  Total: ฿ {cart?.totalPrice}
+                  Total: {cart?.totalPrice} ฿
                 </Typography>
                 <Button
                   variant="contained"

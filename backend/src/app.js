@@ -3,13 +3,10 @@ const { ApolloServer, gql } = require("apollo-server-express");
 import jwt from "express-jwt";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import bodyParser from "body-parser";
-const { graphqlUploadExpress } = require("graphql-upload");
-
 import "./mongoose-connect";
 import schema from "./graphql";
 const PORT = 4000;
-const path = "/graphql";
+const pathG = "/graphql";
 const app = express();
 
 const server = new ApolloServer({
@@ -17,15 +14,20 @@ const server = new ApolloServer({
   playground: true,
   context: ({ req }) => ({ user: req.user }),
 });
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(
+  cors({
+    origin: "https://loving-sammet-3f15fe.netlify.app/",
+    credentials: true,
+  })
+);
 
 app.use(
-  path,
-  // graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
+  pathG,
   jwt({
     secret: process.env.SECRET ?? "default-secret",
     algorithms: ["HS256"],
@@ -56,7 +58,7 @@ app.use(
 
 server.applyMiddleware({
   app,
-  path,
+  pathG,
   cors: { origin: "http://localhost:3000", credentials: true },
 });
 

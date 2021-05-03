@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import { useMutation, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import {
   Button,
   Card,
@@ -11,9 +11,8 @@ import {
   TextField,
   CardContent,
 } from "@material-ui/core";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { PRODUCT_ID_QUERY } from "../graphql/productQuery";
-import { UPDATE_CART } from "../graphql/createCart";
 import { useSession } from "../contexts/SessionContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -52,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ProductDetail() {
   const [amount, setAmount] = React.useState(1);
   // const [item, setItems] = React.useState([]);
-  const { cart, addItem } = useSession();
+  const { addItem } = useSession();
   const classes = useStyles();
   const { id } = useParams();
   const { loading, error, data } = useQuery(PRODUCT_ID_QUERY, {
@@ -110,7 +109,7 @@ export default function ProductDetail() {
         <Grid item xs={7} style={{ textAlign: "left" }}>
           <Typography variant="h4">{product.name}</Typography>
           <Typography variant="h3" color="primary">
-            ฿{product.price}
+            {product.price}฿
           </Typography>
           <div className={classes.buttGroup}>
             <Typography variant="subtitle1">Amount</Typography>

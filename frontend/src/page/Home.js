@@ -10,7 +10,6 @@ import LinkM from "@material-ui/core/Link";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { useSession } from "../contexts/SessionContext";
 import { PRODUCT_QUERY } from "../graphql/productQuery";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   heroContent: {
+    marginTop: -22,
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
   },
@@ -63,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   const classes = useStyles();
-  const { user } = useSession();
   const { loading, error, data } = useQuery(PRODUCT_QUERY);
   if (loading) {
     return "Loading ...";
@@ -72,14 +71,6 @@ export default function Home() {
     console.log(error.message);
     return "Error !!";
   }
-  // const { loading, error, data } = useQuery(USERS_QUERY);
-  // if (loading) {
-  //   return "Loading . . .";
-  // }
-  // if (error) {
-  //   return "Error ...";
-  // }
-  // console.log(data);
   return (
     <React.Fragment>
       <CssBaseline />
@@ -93,10 +84,10 @@ export default function Home() {
           color="textPrimary"
           gutterBottom
         >
-          Banner layout
+          Welcome to Tagmall
         </Typography>
         <Typography variant="h5" align="center" color="textSecondary" paragraph>
-          {user ? user.name : "Login Please "}
+          {/* {user ? user.name : "Login Please "} */}
         </Typography>
         {/* </Container> */}
       </div>
@@ -175,14 +166,14 @@ export default function Home() {
                     {card.name}
                   </Typography>
                 </CardContent>
-                <Typography color="primary">${card.price}</Typography>
+                <Typography color="primary">{card.price}฿</Typography>
               </CardActionArea>
             </Grid>
           ))}
         </Grid>
       </Container>
       {/* Footer */}
-      <footer className={classes.footer}>
+      {/* <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
           Footer
         </Typography>
@@ -194,7 +185,7 @@ export default function Home() {
         >
           Something here to give the footer a purpose!
         </Typography>
-      </footer>
+      </footer> */}
       {/* End footer */}
     </React.Fragment>
   );
